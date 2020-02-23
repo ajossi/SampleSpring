@@ -1,0 +1,730 @@
+/* 색상코드 : #6E81DF #EAF0FE #ABC8E2 #375D81 #183152*/
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+	border-collapse: collapse;
+}
+
+html, body {
+	margin: 0;
+	font-size: 0pt;
+	width: 100%;
+	height: 100%;
+}
+
+#bmNm_s {
+	color: #6E81DF;
+}
+
+#bmNm_s:hover {
+	cursor: text;
+	color: #6E81DF;
+}
+
+.line_div {
+	display: inline-block;
+	width: 1px;
+	height: 30px;
+	border-right: 1px solid #AEAEAE;
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.area {
+	margin: 0 auto;
+	width: 1050px;
+	height: 100%;
+}
+
+.area_top {
+	width: 100%;
+	height: 110px;
+	border-bottom: 5px solid #333333;
+	padding-top: 50px;
+}
+
+.bar_wrap {
+	width: 100%;
+	height: 50px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #AEAEAE;
+	position: absolute;
+	z-index: -1;
+}
+
+.bar {
+	width: 100%;
+	height: 50px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #AEAEAE;
+	vertical-align: middle;
+	line-height: 50px;
+	text-align: right;
+}
+
+#loginBtn_s{
+	float: right;
+	margin-top: 10px;
+}
+
+#loginBar {
+	display: none;
+}
+
+.logo {
+	float: left;
+}
+
+.logo:hover {
+	cursor: pointer;
+}
+
+.menu {
+	width: 100%;
+	height: 40px;
+	background-color: #FFFFFF;
+	line-height: 40px;
+	vertical-align: middle;
+}
+
+.menu_list {
+	display: inline-block;
+	font-size: 16pt;
+	font-weight: bold;
+	color: #333333;
+	width: auto;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	vertical-align: middle;
+	margin-left: 20px;
+	margin-right: 20px;
+	float: left;
+}
+
+.menu_list:hover {
+	cursor: pointer;
+	color: #6E81DF;
+	border-bottom: 5px solid #6E81DF;
+}
+
+.search {
+	display: inline-block;
+	width: auto;
+	height: 33px;
+	margin-top: 5px;
+	margin-left: 20px;
+	float: right;
+	border: 1px solid #6E81DF;
+}
+
+.area_mid {
+	width: 100%;
+	height: auto;
+	background-color: #FFFFFF;
+	padding-bottom: 50px;
+}
+
+.board_latest {
+	width: 100%;
+	height: 700px;
+}
+
+.board_main {
+	width: 100%;
+	height: 100%;
+}
+
+.board_main_top {
+	width: 100%;
+	height: 45px;
+	padding-left: 20px;
+	border-bottom: 1px solid #dddddd;
+}
+
+.list_board_main {
+	display: inline-block;
+	height: auto;
+	padding: 0px;
+}
+
+.wrap {
+	display: inline-block;
+	width: 262px;
+	height: 300px;
+	float: left;
+	border: 1px solid #AEAEAE;
+}
+
+.wrap:hover {
+	border: 2px solid #6E81DF;
+}
+
+.wrap_board_main {
+	padding: 20px 20px 0;
+	width: 262px;
+	height: 250px;
+}
+
+/* .area_photo {
+	width: 100%;
+	height: 120px;
+	background-color: #FFFFFF;
+} */
+
+.board_main_title {
+	width: 100%;
+	/* height: 90px; */
+	height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.board_main_con {
+	height: 170px;
+	font-size: 12px;
+	margin-left: 0px;
+	color: #474747;
+}
+
+.board_main_title:hover, .board_main_con:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.info_user {
+	width: 100%;
+	height: 35px;
+	background-color: #FFFFFF;
+	margin-top: 20px;
+	font-size: 12px;
+}
+
+.info_user_name {
+	color: #9AB2D5;
+	padding: 5px;
+}
+
+.div {
+	height: 5px;
+	border-right: 1px solid #EBEBEB;
+}
+
+.info_user_tema {
+	padding: 5px;
+}
+
+.title {
+	display: inline-block;
+	width: auto;
+	height: 45px;
+	font-size: 14pt;
+	font-weight: bold;
+	color: #6E81DF;
+	line-height: 45px;
+	vertical-align: middle;
+	margin-right: 10px;
+	float: left;
+}
+
+.notice {
+	display: inline-block;
+	width: 786px;
+	height: auto;
+}
+
+.wrap_title_list {
+	width: 100%;
+	height: 40px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #333333;
+}
+
+.title_list {
+	display: inline-block;
+	width: auto;
+	height: 40px;
+	font-size: 14pt;
+	font-weight: bold;
+	color: #333333;
+	line-height: 45px;
+	vertical-align: middle;
+	margin-right: 10px;
+	float: left;
+}
+
+table {
+	/* width: 786px; */
+	width: 100%;
+	height: auto;
+	border-collapse: collapse;
+}
+
+.tr_list {
+	height: 20px;
+	border-bottom: 1px solid #CECECE;
+}
+
+.td_list_left {
+	width: 100%;
+	height: auto;
+	font-size: 12px;
+	text-align: left;
+	color: #666666;
+}
+
+.td_list_left:hover {
+	cursor: pointer;
+	color: #AEAEAE;
+	text-decoration: underline;
+}
+
+.td_list_right {
+	width: 50px;
+	haight: auto;
+	font-size: 12px;
+	text-align: right;
+}
+
+.td_left_content {
+	width: auto;
+	font-size: 12px;
+	text-align: left;
+	color: #999999;
+}
+
+.td_left_content:hover {
+	cursor: pointer;
+	color: #333333;
+}
+
+.ad {
+	display: inline-block;
+	width: 262px;
+	height: 231px;
+	float: right;
+	padding-top: 20px;
+	padding-left: 20px;
+}
+
+/* 釉붾줈洹� */
+.area_left {
+	display: inline-block;
+	width: 250px;
+	height: 100%;
+	vertical-align: top;
+}
+
+.area_left_profile {
+	width: 100%;
+	height: 300px;
+	padding: 10px 20px;
+}
+
+.img_profile {
+	border: 1px solid #AEAEAE;
+}
+
+.name_profile {
+	color: #666666;
+	font-size: 9pt; margin-top : 10px;
+	border: none;
+	outline: none;
+	margin-top: 10px;
+}
+
+.comment_profile {
+	width: 100%;
+	height: auto;
+	font-size: 9pt; resize : none;
+	border: none;
+	outline: none;
+	color: #666666;
+	margin-top: 20px;
+	resize: none;
+}
+
+.area_left_cateList {
+	width: 100%;
+	height: auto;
+	padding: 25px;
+}
+
+.td_left_cnt {
+	font-size: 12px;
+	margin-left: 5px;
+	color: #666666;
+}
+
+.td_left_data {
+	font-size: 9pt;
+	color: #666666;
+	text-align: left;
+}
+
+.add_cate_area {
+	margin-top: 20px;
+}
+
+.del_cate_area {
+	margin-top: 20px;
+}
+
+.area_left_monthList {
+	width: 100%;
+	height: auto;
+	padding: 25px;
+}
+
+.area_left_latestComment {
+	width: 100%;
+	height: auto;
+	padding: 25px;
+}
+
+.area_right {
+	display: inline-block;
+	width: 800px;
+	height: 100%;
+}
+
+.area_right_banner {
+	width: 100%;
+	height: 100px;
+	line-height: 100px;
+	padding-left: 25px;
+	background-color: #375D81;
+	border-bottom: 7px solid #00214B;
+}
+
+.txt_banner {
+	width: auto;
+	height: auto;
+	color: #FFFFFF; font-size : 16pt;
+	font-weight: bold;
+	font-size: 16pt;
+}
+
+.txt_banner:hover {
+	color: #183152;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.area_right_postList {
+	width: 100%;
+	height: auto;
+	background-color: #FFFFFF;
+	padding: 30px;
+}
+
+.wrap_title_post {
+	border-bottom: 1px solid #333333;
+	margin-bottom: 15px;
+}
+
+.title_post {
+	font-size: 10pt;
+	color: #333333;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.left_menu_title {
+	font-size: 10pt;
+	color: #333333;
+	font-weight: bold;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #333333;
+}
+
+.area_paging, .area_paging_comment {
+	width: 100%;
+	height: 90px;
+	text-align: center;
+	padding-top: 45px;
+}
+
+.area_right_post {
+	width: 100%;
+	height: auto;
+	padding: 20px;
+}
+
+.post_title_area {
+	width: 100%;
+	height: 50px;
+	padding: 5px;
+}
+
+.post_date {
+	width: 100%;
+	height: 20px;
+	font-size: 10pt;
+	color: #AEAEAE;
+	padding-bottom: 5px;
+}
+
+.post_title {
+	display: inline-block;
+	width: auto;
+	height: 25px;
+	font-size: 13pt;
+	color: #000000;
+}
+
+.post_cate {
+	display: inline-block;
+	width: auto;
+	height: auto;
+	font-size: 10pt;
+	color: #AEAEAE;
+	border-left: 1px solid #AEAEAE;
+	padding-left: 5px;
+	margin-left: 5px;
+}
+
+/* 寃뚯떆臾� �궡�슜 */
+
+.post_con_area {
+	width: 100%;
+	height: 100%;
+	font-size: 20pt;
+	margin-bottom: 50px;
+}
+
+.post_comment_clear {
+	width: 100%;
+	height: 20px;
+	margin: 15px 0px;
+	text-align: right;
+	font-size: 9pt;
+}
+
+.post_comment_area {
+	width: 100%;
+	height: auto;
+	padding: 20px;
+}
+
+.comment_list {
+	width: 100%;
+	height: auto;
+	margin-bottom: 30px;
+}
+
+.comment_item {
+	width: 100%;
+	height: 60px;
+	padding-top: 15px;
+	margin-bottom: 20px;
+}
+
+.comment_info {
+	width: auto;
+	height: 42px;
+	padding: 3px 0 0 3px;
+	vertical-align: middle;
+	background-color: #EAEAEA;
+	line-height: 42px;
+}
+
+.comment_img {
+	width: 35px;
+	height: 35px;
+	margin: 0px;
+}
+
+.comment_name {
+	position: relative;
+	bottom: 2px;
+	font-size: 11pt;
+	left: 5px;
+	vertical-align: middle;
+}
+
+.comment_date {
+	position: relative;
+	bottom: 3px;
+	font-size: 10pt;
+	left: 10px;
+	vertical-align: middle;
+}
+
+.comment {
+	font-size: 11pt;
+}
+
+.area_bot {
+	width: 100%;
+	height: 100px;
+	color: #AEAEAE;
+	font-size: 10pt;
+	text-align: center;
+	line-height: 100px;
+	border-top: solid 3px #333333;
+}
+
+/* 濡쒓렇�씤 諛� �쉶�썝媛��엯 */
+.area_a {
+	margin: 0 auto;
+	width: 400px;
+	height: 350px;
+	padding: 20px;
+	border: 1px solid #e2e2e2;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.gbn {
+	margin: 0 auto;
+	width: 100%;
+	height: 50px;
+	text-align: center;
+	color: black;
+	font-size: 20pt;
+	border-bottom: 1px solid #000000;
+	font-weight: bold;
+	margin-bottom: 40px;
+}
+
+.line_input {
+	height: 51px;
+	margin-bottom: 20px;
+	vertical-align: middle;
+}
+
+.txt {
+	display: inline-block;
+	color: black;
+	font-size: 12pt;
+}
+
+/* 湲��벐湲� */
+
+.area_b {
+	margin: 0 auto;
+	width: 100%;
+	height: auto;
+	padding: 20px;
+	border: 1px solid #e2e2e2;
+	margin-top: 30px;
+	background-color: #FFFFFF;
+}
+
+.table_attr{
+	text-align: center;
+	font-size: 10pt;
+	height: 30px;
+	width: 70px;
+}
+
+#bWriter {
+	border: none;
+	outline: none;
+}
+
+.table_con {
+	height: 40px;
+}
+
+#bWriteBtn {
+	margin-left: 200px;
+}
+
+.btn_area {
+	margin-top: 20px;
+}
+
+.td_radio {
+	padding: 10px;
+}
+
+.area_radio {
+	display: inline-block;
+	width: 25%;
+	vertical-align: top;
+}
+
+/* �뀒留� */
+.left_menu_tema {
+	padding: 20px;
+}
+
+.left_menu_content {
+	font-size: 10pt;
+	color: #6E81DF;
+	padding: 1px 0px;
+}
+
+.left_menu_content:hover{
+	cursor: pointer;
+	color: #183152;
+}
+
+.left_menu_wrap {
+	border-bottom: 1px solid #DEDEDE;
+	padding: 5px 0px;
+}
+
+.right_list_area{
+	padding: 20px;
+}
+
+.tema_title {
+	font-size: 12pt;
+	border-bottom: 1px solid #DEDEDE;
+	display: block;
+	padding: 5px 0px;
+}
+
+.tema_wrap {
+	padding: 10px 0px;
+}
+
+.tema_img {
+	display: inline-block;
+	width: 75px;
+	height: 100px;
+	background-color: #AEAEAE;
+	margin-right: 10px;
+}
+
+.tema_right{
+	display: inline-block;
+	vertical-align: top;
+}
+
+.tema_right_tema {
+	font-size: 10pt;
+	color: #6E81DF;
+}
+
+.tema_right_title{
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.tema_right_mid > span {
+	font-size: 8pt;
+	color: #AEAEAE;
+}
+
+.tema_div {
+	margin: 0px 5px;
+}
+
+.tema_right_bot {
+	font-size: 10pt;
+}
+
+.font_s {
+	display: inline-block;
+	font-size: 9pt;
+	color: #ABABAB;
+	vertical-align: middle;
+}

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test"> <!-- test : class 비스무리 -->
+	<!-- 다이나믹 쿼리문 -->
+	<select id="getList" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT T.NO, T.TITLE, T.DT, T.WRITER, T.HIT
+		FROM ( SELECT NO, TITLE,
+		TO_CHAR(DT, 'MM-DD') AS DT, WRITER, HIT,
+		ROW_NUMBER() OVER(ORDER BY NO
+		DESC) AS RNUM
+		FROM TEST
+		WHERE 1 = 1
+		<if test="searchTxt != null and searchTxt != ''">
+			<choose>
+				<!-- 제목 -->
+				<when test="searchGbn == 0">
+					AND TITLE LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<!-- 작성자 -->
+				<when test="searchGbn == 1">
+					AND WRITER LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<!-- 제목 + 작성자 -->
+				<when test="searchGbn == 2">
+					AND(TITLE LIKE '%' || #{searchTxt} || '%')
+					OR (WRITER
+					LIKE '%' || #{searchTxt} || '%')
+				</when>
+			</choose>
+		</if>
+		) T
+		WHERE T.RNUM BETWEEN #{startCount} AND #{endCount}
+	</select>
+
+	<select id="getListCnt" parameterType="hashmap"
+		resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM TEST
+		WHERE 1 = 1
+		<if test="searchTxt != null and searchTxt != ''">
+			<choose>
+				<!-- 제목 -->
+				<when test="searchGbn == 0">
+					AND TITLE LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<!-- 작성자 -->
+				<when test="searchGbn == 1">
+					AND WRITER LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<!-- 제목 + 작성자 -->
+				<when test="searchGbn == 2">
+					AND(TITLE LIKE '%' || #{searchTxt} || '%')
+					OR (WRITER
+					LIKE '%' || #{searchTxt} || '%')
+				</when>
+			</choose>
+		</if>
+		ORDER BY NO DESC
+	</select>
+
+	<select id="getData" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT NO, TITLE, CON, TO_CHAR(DT, 'YYYY-MM-DD') AS DT, WRITER, HIT
+		FROM TEST
+		WHERE NO = #{no}
+	</select>
+	
+	<update id="updateHit" parameterType="hashmap">
+		UPDATE TEST SET HIT = HIT + 1
+		WHERE NO = #{no}
+	</update>
+	
+	<insert id="insertData" parameterType="hashmap">
+		INSERT INTO TEST(NO, TITLE, WRITER, CON)
+		VALUES(TEST_SEQ.NEXTVAL, #{title}, #{writer}, #{con})
+	</insert>
+	
+	<update id="updateData" parameterType="hashmap">
+		UPDATE TEST SET TITLE = #{title}, WRITER = #{writer}, CON = #{con}
+		WHERE NO = #{no}
+	</update>
+	<delete id="deleteData" parameterType="hashmap">
+		DELETE FROM TEST
+		WHERE NO = #{no}
+	</delete>
+	
+	<insert id="joinData" parameterType="hashmap">
+		INSERT INTO MEM
+		VALUES(MEM_SEQ.NEXTVAL, #{id}, #{pass}, #{nm})
+	</insert>
+	
+	<select id="getMem" parameterType="hashmap" resultType="hashmap">
+		SELECT MEM_NO, MEM_ID, MEM_NM
+		FROM MEM
+		WHERE MEM_ID = #{id}
+		AND MEM_PW = #{pass}
+	</select>
+	
+	<!-- 게시판 과제 -->
+	
+	<!-- 회원가입 -->
+	<insert id="bJoinData" parameterType="hashmap">
+		INSERT INTO BM(BM_NO, BM_ID, BM_PW, BM_NM)
+		VALUES(BM_SEQ.NEXTVAL, #{bMemId}, #{bMemPw}, #{bMemNm})
+	</insert>
+	
+	<!-- 중복체크 -->
+	<select id="bCheckedId" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*)
+		FROM BM
+		WHERE BM_ID = #{bMemId}
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="bGetMem" parameterType="hashmap" resultType="hashmap">
+		SELECT BM_NO, BM_ID, BM_NM
+		FROM BM
+		WHERE BM_ID = #{bMemId}
+		AND BM_PW = #{bMemPw}
+	</select>
+	
+	<!-- 게시판 목록 불러오기 -->
+	<select id="bGetList" parameterType="hashmap" resultType="hashmap">
+		SELECT B.B_NO, B.BM_NM, B.B_TITLE, B.B_CON, B.B_DT, B.RNUM
+		FROM (SELECT B_NO, BM_NM, B_TITLE, B_CON, TO_CHAR(B_DT, 'YYYY-MM-DD') B_DT, B_HIT,
+	        	ROW_NUMBER() OVER(ORDER BY B_NO DESC) AS RNUM
+		FROM B b INNER JOIN BM bm
+         		 ON b.BM_NO = bm.BM_NO
+		WHERE 1=1 AND b.DEL_YN = 1) B
+		WHERE B.RNUM BETWEEN #{bStartCount} AND #{bEndCount}
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="bInsertData" parameterType="hashmap">
+		INSERT INTO B (B_NO, BM_NO, B_TITLE, B_CON)
+		VALUES(B_SEQ.NEXTVAL, #{bmNo}, #{bTitle}, #{bCon})
+	</insert>
+	
+	<!-- 상세조회 -->
+	<select id="bGetData" parameterType="hashmap" resultType="hashmap">
+		SELECT B_NO, b.BM_NO AS BM_NO, bm.BM_NM AS BM_NM, B_TITLE, B_CON, TO_CHAR(B_DT, 'YYYY-MM-DD. HH:MI') AS B_DT, B_HIT
+		FROM B b INNER JOIN BM bm
+		       ON b.BM_NO = bm.BM_NO
+		WHERE B_NO = #{bNo}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="bUpdateHit" parameterType="hashmap">
+		UPDATE B SET B_HIT = B_HIT + 1
+		WHERE B_NO = #{bNo}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="bDeleteData" parameterType="hashmap">
+		UPDATE B SET DEL_YN = 0
+		WHERE B_NO = #{bNo}	
+	</delete>
+	
+	<!-- 게시글 수정 -->
+	<update id="bUpdateData" parameterType="hashmap">
+		UPDATE B
+		SET B_TITLE = #{bTitle}, B_CON = #{bCon}
+		WHERE B_NO = #{bNo}
+	</update>
+	
+	<!-- 회원정보 수정 가져오기 -->
+	<select id="bmGetData" parameterType="hashmap" resultType="hashmap">
+		SELECT BM_NO, BM_ID, BM_NM, BM_PW
+		FROM BM
+		WHERE BM_NO = #{bmNo}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="bmUpdateData" parameterType="hashmap">
+		UPDATE BM
+		SET BM_NM = #{bMemNm}, BM_PW = #{bMemPw}
+		WHERE BM_NO = #{bMemNo}
+	</update>
+	
+	<!-- 게시글 개수 -->
+	<select id="bGetListCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*)
+		FROM B
+		WHERE 1=1
+		ORDER BY B_NO DESC
+	</select>
+</mapper>

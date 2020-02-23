@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog">
+	<!-- id중복검사 -->
+	<select id="idCheck" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM BM
+		WHERE BM_ID = #{bmIdtxt}
+	</select>
+	<!-- name중복검사 -->
+	<select id="nmCheck" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM BM
+		WHERE BM_ID = #{bmNmtxt}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertBM" parameterType="hashmap">
+		INSERT INTO BM(BM_NO, BM_ID, BM_PW, BM_NM)
+		VALUES(BM_SEQ.NEXTVAL, #{bmIdtxt}, #{bmPwtxt}, #{bmNmtxt})
+	</insert>
+	
+	<!-- 로그인 -->
+	<select id="getBM" parameterType="hashmap" resultType="hashmap">
+		SELECT BM_NO, BM_NM
+		FROM BM
+		WHERE DEL_YN = 1
+		AND BM_ID = #{bmIdtxt}
+		AND BM_PW = #{bmPwtxt}
+	</select>
+	
+	<!-- 블로그 정보 -->
+	<select id="getBlogInfo" parameterType="hashmap" resultType="hashmap">
+		SELECT BM_NM
+		FROM BM
+		WHERE BM_NO = #{blogNo}
+	</select>
+	
+	<!-- 게시글수 -->
+	<select id="getBCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM B INNER JOIN BM
+		                ON B.BM_NO = BM.BM_NO
+		                AND BM.DEL_YN = 1
+		WHERE B.DEL_YN = 1
+		AND B.BM_NO = #{blogNo}
+		<!-- <if test="searchTxt != null and searchTxt != ''">
+			<choose>
+				<when test="searchGbn eq 0">
+					AND B.B_TITLE LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn eq 1">
+					AND BM.BM_NM LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn eq 2">
+					AND (B.B_TITLE LIKE '%' || #{searchTxt} || '%'
+					OR BM.BM_NM LIKE '%' || #{searchTxt} || '%')
+				</when>
+			</choose>
+		</if> -->
+	</select>
+	
+	<!-- 목록 -->
+	<select id="getB" parameterType="hashmap" resultType="hashmap">
+		SELECT B.B_NO, B.B_TITLE, B.BM_NM, B.B_DT, B.B_HIT, B.C_NO, B.C_NAME, B.BM_NO
+		FROM (  SELECT B.B_NO, B.B_TITLE, BM.BM_NM, TO_CHAR(B.B_DT, 'YYYY.MM.DD')B_DT, B.B_HIT, B.C_NO, C.C_NAME,
+		                ROW_NUMBER() OVER(ORDER BY B.B_NO DESC) AS RNUM, B.BM_NO
+		        FROM B INNER JOIN BM
+		                        ON B.BM_NO = BM.BM_NO
+		                        AND BM.DEL_YN = 1
+		                        <if test="cNo == ''">
+		               LEFT OUTER JOIN CATE C
+		               			ON B.C_NO = C.C_NO
+		               			</if>
+		               			<if test="cNo != ''">
+		               INNER JOIN CATE C
+		               			ON B.C_NO = C.C_NO
+		               			</if>
+		        WHERE B.DEL_YN = 1 
+		        AND B.BM_NO = #{blogNo}
+		        <if test="cNo != ''">
+		        AND B.C_NO = #{cNo}
+		        </if>
+		     ) B
+		WHERE B.RNUM BETWEEN #{startCnt} AND #{endCnt}
+	</select>
+	
+	<!-- 카테고리 등록 -->
+	<insert id="insertCate" parameterType="hashmap">
+		INSERT INTO CATE(C_NO, C_NAME, BM_NO)
+		VALUES(CATE_SEQ.nextval, #{insertCate}, #{blogNo})
+	</insert>
+	
+	<!-- 카테고리 목록 -->
+	<select id="getCate" parameterType="hashmap" resultType="hashmap">
+		SELECT C.C_NO, C.C_NAME, C.C_NO, C.BC_NO,
+        CASE WHEN BC_NO IS NULL
+        THEN 0
+        ELSE C_CNT
+        END AS C_CNT
+		FROM
+		(SELECT C.C_NO AS C_NO, C_NAME, COUNT(C.C_NO) AS C_CNT, B.C_NO AS BC_NO
+		FROM CATE C LEFT OUTER JOIN B
+		            ON C.C_NO = B.C_NO
+		WHERE C.BM_NO = #{blogNo}
+		GROUP BY C.C_NO, C_NAME, B.C_NO
+		ORDER BY C.C_NO) C
+	</select>
+
+	<!-- 글쓰기 -->
+	<insert id="insertB" parameterType="hashmap">
+		INSERT INTO B (B_NO, BM_NO, B_TITLE, B_CON, C_NO, T_NO)
+		VALUES(B_SEQ.NEXTVAL, #{blogNo}, #{bTitle}, #{bCon}, #{cNo}, #{tag})
+	</insert>
+	
+	<!-- <select id="getLData" parameterType="hashmap" resultType="hashmap">
+		SELECT B_NO
+		FROM (SELECT RANK() OVER(ORDER BY B_DT DESC) AS RNK, B_NO
+			  FROM B
+			  WHERE BM_NO = #{blogNo})
+		WHERE RNK = 1
+	</select> -->
+	
+	<!-- 게시글 상세보기 -->
+	<select id="getBdata" parameterType="hashmap" resultType="hashmap">
+		SELECT B.B_NO, B.BM_NO, B.B_TITLE, B.B_CON, TO_CHAR(B.B_DT, 'YYYY/MM/DD HH:MM') AS B_DT, B.B_HIT, C_NAME, T_NO
+		FROM B INNER JOIN BM
+             ON B.BM_NO = BM.BM_NO AND BM.DEL_YN = 1
+             LEFT OUTER JOIN CATE C
+             ON B.C_NO = C.C_NO
+		WHERE B.DEL_YN = 1
+		<if test="bNo != ''">
+		AND B.B_NO = #{bNo}
+		</if>
+		<if test="bNo == ''">
+		AND B.B_NO = (SELECT B_NO
+					  FROM (SELECT RANK() OVER(ORDER BY B_DT DESC) AS RNK, B_NO
+						    FROM B
+						    WHERE BM_NO = #{blogNo})
+					  WHERE RNK = 1)
+		</if>
+	</select>
+	
+	<!-- 게시글 조회수 -->
+	<update id="updateBhit" parameterType="hashmap">
+		UPDATE B
+		SET B_HIT = B_HIT + 1
+		WHERE B_NO = #{bNo}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<update id="deleteBdata" parameterType="hashmap">
+		UPDATE B
+		SET DEL_YN = 0
+		WHERE B_NO = #{bNo}
+		AND BM_NO = #{blogNo}
+	</update>
+	
+	<!-- 게시글 수정 -->
+	<update id="bUpdateData" parameterType="hashmap">
+		UPDATE B
+		SET B_TITLE = #{bTitle}, B_CON = #{bCon}, C_NO = #{cNo}
+		WHERE B_NO = #{bNo}
+		AND BM_NO = #{bmNo}
+	</update>
+	
+	<!-- 덧글 작성 -->
+	<insert id="insertComment" parameterType="hashmap">
+		INSERT INTO B_COMMENT(CMT_NO, CMT_CON, B_NO, BM_NO)
+		VALUES(B_COMMENT_SEQ.NEXTVAL, #{commentField}, #{bNo}, #{bmNo})
+	</insert>
+	
+	<!-- 덧글 갯수-->
+	<select id="getCommentCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM B INNER JOIN B_COMMENT C
+		       ON B.B_NO = C.B_NO
+		       AND C.DEL_YN = 1
+		WHERE B.DEL_YN = 1
+		AND C.B_NO = #{bNo}
+	</select>
+	
+	<!-- 덧글 목록 -->
+	<select id="getComment" parameterType="hashmap" resultType="hashmap">
+		SELECT *
+		FROM
+		(SELECT C.CMT_NO, C.CMT_CON, TO_CHAR(C.CMT_DT, 'YYYY/MM/DD HH:MM') AS CMT_DT, BM.BM_NM,
+				ROW_NUMBER() OVER(ORDER BY C.CMT_NO DESC) AS CMTNUM
+		FROM B INNER JOIN B_COMMENT C
+		       ON B.B_NO = C.B_NO
+		       INNER JOIN BM
+		       ON C.BM_NO = BM.BM_NO
+		       AND C.DEL_YN = 1
+		WHERE B.DEL_YN = 1
+		AND C.B_NO = #{bNo}) C
+		WHERE C.CMTNUM BETWEEN #{commentStartCnt} AND #{commentEndCnt}
+	</select>
+	
+<!-- 	이전글 갯수
+	<select id="getArchive" parameterType="hashmap" resultType="hashmap">
+		SELECT TO_CHAR(B_DT, 'YYYY.MM') AS B_DT, COUNT(TO_CHAR(B_DT, 'YYYY_MM')) AS CNT
+        FROM B
+        WHERE BM_NO = #{blogNo}
+        GROUP BY TO_CHAR(B_DT, 'YYYY.MM')
+	</select> -->
+	
+	<!-- 인기글 목록 -->
+	<select id="getPopularB" parameterType="hashmap" resultType="hashmap">
+		SELECT *
+		FROM
+		(SELECT B.B_NO, B.BM_NO, B.B_TITLE, B.B_CON, B.B_DT, B.B_HIT, B.C_NO, B.T_NO, BM.BM_NM, T.T_NAME,
+		        RANK()OVER(ORDER BY B_HIT DESC)AS RNK
+		FROM B INNER JOIN BM
+		       ON B.BM_NO = BM.BM_NO
+		       AND B.DEL_YN = 1
+		       INNER JOIN TEMA T
+		       ON B.T_NO = T.T_NO)
+		WHERE RNK BETWEEN 1 AND 8
+	</select>
+</mapper>

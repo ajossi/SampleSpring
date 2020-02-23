@@ -1,0 +1,47 @@
+@charset "UTF-8";
+html, body {
+	margin: 0;
+	font-size: 0pt;
+	width: 100%;
+	height: 100%;
+}
+
+.txt {
+	display: inline-block;
+	width: 100px;
+	height: 30px;
+	color: black;
+	font-size: 12pt;
+}
+
+.txt_s {
+	display: inline-block;
+	width: 200px;
+	height: 20px;
+	color: black;
+	font-size: 10pt;
+}
+
+.input_txt {
+	display: inline-block;
+	width: 200px;
+	height: 31px;
+	background-color: #EAF0FE;
+	border: 1px solid #CCCCCC;
+	/* outline: none; */
+	padding: 0 5px;
+	vertical-align: top;
+}
+
+.comment_field {
+	resize: none;
+}
+
+.sel {
+	display: inline-block;
+	width: 100px;
+	height: 31px;
+	color: black;
+	outline: none;
+	vertical-align: top;
+}
