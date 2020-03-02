@@ -11,12 +11,13 @@
 > Forking WorkFlow
 
 1. git 설치
-2. 해당 프로젝트 Fork
+2. 해당 프로젝트 Fork(해당 깃허브 페이지 우측 상단 버튼 클릭)
    - git repository fork를 하여 개인 git 계정에 repository를 생성한다.
-3. 개인 remote repository를 Local로 clone 합니다.
+3. Clone or download 버튼을 클릭하여 나오는 주소 복사 = url
+4. 개인 remote repository를 Local로 clone 합니다.
 
 ```
-git clone git@github.com:[username]/Goodee-algostudy.git
+ex) git clone git@https://github.com/ajossi/SampleSpring.git
 ```
 
 1. public repository를 Upstream remote로 추가합니다.
